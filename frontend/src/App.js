@@ -20,6 +20,7 @@ import ForgotPassword from './pages/ForgotPassword';
 import ResetPassword from './pages/ResetPassword';
 import logo from './logo.png';
 import GetWebsiteForm from './pages/GetWebsiteForm';
+import LandingPage from './pages/LandingPage';
 
 
 
@@ -122,7 +123,7 @@ if (loading) {
                 </ProtectedRoute>
               }
             />
-            <Route path="/" element={<Navigate to="/dashboard" replace />} />
+          
             <Route
               path="/leads"
               element={
@@ -193,7 +194,7 @@ if (loading) {
     </ProtectedRoute>
   }
 />
-
+<Route path="/" element={<LandingPage />} />
 
 
           </Routes>
