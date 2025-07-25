@@ -18,6 +18,11 @@ const app = express();
 const cors = require('cors');
 app.use(cors());
 
+// ✅ Health check (works in dev and production always)
+app.get('/ping', (req, res) => {
+  res.send('pong');
+});
+
 // Middleware to parse JSON bodies
 app.use(express.json());
 app.use('/api/users', userRoutes);
@@ -48,9 +53,7 @@ if (process.env.NODE_ENV === 'production') {
   // Set static folder
   app.use(express.static(path.join(__dirname, 'frontend', 'build')));
 
- app.get("/ping", (req, res) => {
-    res.send("pong");
-  });
+
   app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, 'frontend', 'build', 'index.html'));
   });  
