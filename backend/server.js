@@ -56,6 +56,10 @@ if (process.env.NODE_ENV === 'production') {
   app.get('/', (req, res) => {
     res.send('Hello, Rishav Mishra CRM!');
   });
+  app.get("/ping", (req, res) => {
+  res.send("pong");
+});
+
 }
 
 // Start the server
