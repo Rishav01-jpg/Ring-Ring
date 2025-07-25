@@ -48,6 +48,9 @@ if (process.env.NODE_ENV === 'production') {
   // Set static folder
   app.use(express.static(path.join(__dirname, 'frontend', 'build')));
 
+ app.get("/ping", (req, res) => {
+    res.send("pong");
+  });
   app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, 'frontend', 'build', 'index.html'));
   });  
@@ -57,9 +60,7 @@ if (process.env.NODE_ENV === 'production') {
     res.send('Hello, Rishav Mishra CRM!');
   });
 }
- app.get("/ping", (req, res) => {
-  res.send("pong");
-});
+
 // Start the server
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
