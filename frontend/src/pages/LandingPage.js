@@ -31,19 +31,19 @@ const LandingPage = () => {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          gap: '15px'
+          gap: '8px'
         }}>
           <img src={logo} alt="logo" style={{
-            width: '80px',
-            height: '80px',
+            width: '100px',
+            height: '100px',
             borderRadius: '50%',
              objectFit: "contain",
-                 padding: "5px",
+                 padding: "4px",
             boxShadow: '0 4px 10px rgba(0,0,0,0.3)'
           }} />
-          Ring Ring CRM
+          Ring Ring Crm
         </h1>
-        <p style={{ fontSize: "1.3rem", marginTop: "10px" }}>
+        <p style={{ fontSize: "1.5rem", marginTop: "10px" }}>
           Upload Your Leads, Start Calling, and Grow Faster.
         </p>
         <p style={{
