@@ -21,7 +21,7 @@ import ResetPassword from './pages/ResetPassword';
 import logo from './logo.png';
 import GetWebsiteForm from './pages/GetWebsiteForm';
 import LandingPage from './pages/LandingPage';
-
+import PaymentPage from './pages/PaymentPage';
 
 
 const theme = createTheme({
@@ -195,6 +195,7 @@ if (loading) {
   }
 />
 <Route path="/" element={<LandingPage />} />
+ <Route path="/payment" element={<PaymentPage />} />
 
 
           </Routes>
