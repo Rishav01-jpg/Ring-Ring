@@ -1,14 +1,46 @@
 import React, { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import logo from '../assets/ringring.png';
 
 const LandingPage = () => {
   const navigate = useNavigate();
 
-  const handleGetStarted = () => {
-    const token = localStorage.getItem("token");
-    navigate(token ? "/dashboard" : "/login");
-  };
+const handleGetStarted = async () => {
+  const token = localStorage.getItem("token");
+
+  // 1️⃣ Already logged in → Dashboard
+  if (token) {
+    navigate("/dashboard");
+    return;
+  }
+
+  // 2️⃣ Check if email is saved (from payment or signup)
+  const savedEmail =
+    (localStorage.getItem("paidEmail") || localStorage.getItem("email") || "").trim().toLowerCase();
+
+  // No email at all → go to payment
+  if (!savedEmail) {
+    navigate("/payment");
+    return;
+  }
+
+  try {
+    // 3️⃣ Ask backend if this email has an active subscription
+    const res = await fetch(`http://localhost:5000/api/payments/status?email=${savedEmail}`);
+    const data = await res.json();
+
+    if (data.subscription === "active") {
+      navigate("/login"); // ✅ Paid user → login/signup
+    } else {
+      navigate("/payment"); // ❌ Not paid → payment page
+    }
+  } catch (err) {
+    console.error("Error checking subscription:", err);
+    navigate("/payment"); // fallback
+  }
+};
+
+
 
   useEffect(() => {
     document.title = "Ring Ring CRM – Smart Calling CRM";
@@ -71,6 +103,36 @@ const LandingPage = () => {
         >
            Get Started
         </button>
+
+        <div style={{
+          marginTop: "20px",
+          display: "flex",
+          justifyContent: "center",
+          gap: "12px"
+        }}>
+          <Link to="/login" style={{
+            padding: "10px 24px",
+            borderRadius: "24px",
+            background: "#ffffff",
+            color: "#0b3d24",
+            textDecoration: "none",
+            fontWeight: 600,
+            border: "2px solid #ffffff"
+          }}>
+            Login
+          </Link>
+          <Link to="/signup" style={{
+            padding: "10px 24px",
+            borderRadius: "24px",
+            background: "transparent",
+            color: "#ffffff",
+            textDecoration: "none",
+            fontWeight: 600,
+            border: "2px solid #ffffff"
+          }}>
+            Sign Up
+          </Link>
+        </div>
       </header>
 
       {/* How It Works Section */}
