@@ -1,4 +1,4 @@
-// Import necessary libraries
+require('dotenv').config();// Import necessary libraries
 const express = require('express');
 const mongoose = require('mongoose');
 const path = require('path');
@@ -11,6 +11,8 @@ const scheduledCallRoutes = require('./routes/scheduledCallRoutes');
 const callHistoryRoutes = require('./routes/callHistoryRoutes');
 const instantLeadRoutes = require('./routes/instantLeadRoutes');
 const websiteRequestRoutes = require('./routes/websiteRequestRoutes');
+const paymentRoutes = require('./routes/paymentRoutes');
+
 
 require('dotenv').config();
 
@@ -34,6 +36,9 @@ app.use('/api/scheduled-calls', scheduledCallRoutes);
 app.use('/api/call-history', callHistoryRoutes);
 app.use('/api', instantLeadRoutes);
 app.use('/api/website-request', websiteRequestRoutes);
+app.use('/api/payments', paymentRoutes);
+
+
 
 
 
