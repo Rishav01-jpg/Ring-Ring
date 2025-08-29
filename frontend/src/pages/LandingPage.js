@@ -26,7 +26,7 @@ const handleGetStarted = async () => {
 
   try {
     // 3️⃣ Ask backend if this email has an active subscription
-    const res = await fetch(`http://localhost:5000/api/payments/status?email=${savedEmail}`);
+    const res = await fetch(`https://ring-ring-eq46.onrender.com/api/payments/status?email=${savedEmail}`);
     const data = await res.json();
 
     if (data.subscription === "active") {
