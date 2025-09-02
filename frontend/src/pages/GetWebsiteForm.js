@@ -106,7 +106,7 @@ function GetYourWebsite() {
           🌐 Get Your Website
         </Typography>
         <Typography variant="body1" align="center" gutterBottom>
-          <strong>Your request has been received. Our team will follow up soon.</strong>    
+          <strong>Fill the form below to get your website . Our team will follow up soon for more details.</strong>    
         </Typography>
         <Box component="form" onSubmit={handleSubmit} sx={{ mt: 3 }}>
           <StyledTextField
