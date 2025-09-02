@@ -59,7 +59,7 @@ router.post('/request-reset-password', async (req, res) => {
         await user.save();
 
         // Construct reset link to point to frontend, not backend API
-        const resetLink = `http://localhost:3000/reset-password/${resetToken}`;
+        const resetLink = `https://ring-ring-1.onrender.com/reset-password/${resetToken}`;
         console.log('Reset Link:', resetLink);
         res.json({ resetLink });
     } catch (error) {
