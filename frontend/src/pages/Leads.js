@@ -907,59 +907,67 @@ const handleExportCsv = () => {
       </Paper>
 
       {/* Add/Edit Lead Dialog */}
-      <Dialog
-        open={openDialog}
-        onClose={handleCloseDialog}
-        PaperProps={{
-          sx: {
-            minWidth: { xs: '90vw', sm: '400px' },
-            padding: { xs: 2, sm: 3 },
-            borderRadius: 3,
-            boxShadow: 8,
-          }
-        }}
-      >
+      <Dialog open={openDialog} onClose={handleCloseDialog} maxWidth="sm" fullWidth>
         <DialogTitle>
-          <Typography
-            variant="h5"
-            sx={{
-              fontWeight: 'bold',
-              fontSize: { xs: '2rem', sm: '2.25rem' },
-              textAlign: 'center',
-              color: 'primary.main',
-              letterSpacing: 1,
-            }}
-          >
-            {selectedLead ? 'Edit Lead' : 'Add New Lead'}
-          </Typography>
+          {selectedLead ? 'Edit Lead' : 'Add New Lead'}
         </DialogTitle>
-        <DialogContent sx={{ px: { xs: 1, sm: 3 }, py: { xs: 2, sm: 2 } }}>
-          <TextField
-            fullWidth
-            label="Name"
-            value={formData.name}
-            onChange={e => setFormData({ ...formData, name: e.target.value })}
-            margin="normal"
-            InputProps={{
-              sx: {
-                fontSize: { xs: '1.25rem', sm: '1.5rem' },
-                fontWeight: 500,
-              }
-            }}
-            InputLabelProps={{
-              sx: {
-                fontSize: { xs: '1.1rem', sm: '1.25rem' },
-              }
-            }}
-          />
-          {/* Repeat similar style for other fields as needed */}
-        </DialogContent>
-        <DialogActions sx={{ justifyContent: 'center', pb: { xs: 2, sm: 3 } }}>
-          <Button onClick={handleCloseDialog} variant="outlined" sx={{ fontSize: { xs: '1.1rem', sm: '1.25rem' }, px: 3, py: 1 }}>Cancel</Button>
-          <Button onClick={handleSubmit} variant="contained" color="primary" sx={{ fontSize: { xs: '1.1rem', sm: '1.25rem' }, px: 3, py: 1, fontWeight: 'bold' }}>
-            {selectedLead ? 'Update' : 'Create'}
-          </Button>
-        </DialogActions>
+        <form onSubmit={handleSubmit}>
+          <DialogContent>
+            <TextField
+              autoFocus
+              margin="dense"
+              label="Name"
+              fullWidth
+              required
+              value={formData.name}
+              onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+            />
+            <TextField
+              margin="dense"
+              label="Email"
+              type="email"
+              fullWidth
+              value={formData.email}
+              onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+            />
+            <TextField
+              margin="dense"
+              label="Phone"
+              fullWidth
+              value={formData.phone}
+              onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+            />
+            <FormControl fullWidth margin="dense">
+              <InputLabel>Status</InputLabel>
+              <Select
+                value={formData.status}
+                label="Status"
+                onChange={(e) => setFormData({ ...formData, status: e.target.value })}
+              >
+                {statusOptions.map(status => (
+                  <MenuItem key={status} value={status}>
+                    {status.charAt(0).toUpperCase() + status.slice(1)}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+            <TextField
+              margin="dense"
+              label="Notes"
+              fullWidth
+              multiline
+              rows={4}
+              value={formData.notes}
+              onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
+            />
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleCloseDialog}>Cancel</Button>
+            <Button type="submit" variant="contained" color="primary">
+              {selectedLead ? 'Update' : 'Create'}
+            </Button>
+          </DialogActions>
+        </form>
       </Dialog>
 
       {/* Auto-calling Dialog */}
