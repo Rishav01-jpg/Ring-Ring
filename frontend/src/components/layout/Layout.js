@@ -142,7 +142,7 @@ const Layout = ({ children }) => {
     { text: 'Contacts', icon: <ContactPhoneIcon />, path: '/contacts' },
     { text: 'Scheduled Calls', icon: <ScheduleIcon />, path: '/scheduled-calls' },
     { text: 'Call History', icon: <PhoneIcon />, path: '/call-history' },
-    { text: 'Instant Leads', icon: <FlashOnIcon />, path: '/instant-leads' },
+    //{ text: 'Instant Leads', icon: <FlashOnIcon />, path: '/instant-leads' },
     { text: 'Get Your Website', icon: <FaGlobe />, path: '/get-website' },
 
    
