@@ -5,6 +5,7 @@ const jwt = require('jsonwebtoken'); // To create tokens
 const { check, validationResult } = require('express-validator'); // To check user inputs
 const crypto = require('crypto'); // To generate reset tokens
 const User = require('../models/user'); // This connects to the User model
+const Payment = require('../models/payment');
 
 const router = express.Router();
 
@@ -27,8 +28,35 @@ router.post('/signup', [
             return res.status(400).json({ msg: 'User already exists' });
         }
 
+        // Require a verified payment before allowing signup
+        const now = new Date();
+        const paid = await Payment.findOne({
+          email: email.toLowerCase(),
+          status: 'paid',
+          used: false,
+          expiresAt: { $gt: now }
+        }).sort({ createdAt: -1 });
+
+        if (!paid) {
+          return res.status(402).json({ msg: 'Payment required before signup. Please complete payment.' });
+        }
+
         user = new User({ name, email, password }); // Let pre-save hook hash it
         await user.save(); // Save user in the database
+
+        try {
+          user.subscription = {
+            plan: paid.plan,
+            isPaid: true,
+            expiresAt: paid.expiresAt,
+            razorpayPaymentId: paid.razorpay_payment_id
+          };
+          await user.save();
+          paid.used = true;
+          await paid.save();
+        } catch (e) {
+          console.error('Failed to finalize paid signup:', e);
+        }
 
         const payload = { user: { id: user.id } }; // User id inside token
         const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '1h' }); // Generate token
@@ -110,26 +138,51 @@ router.post('/login', [
     }
   
     const { email, password } = req.body;
-    console.log('Login attempt:', email, 'Password:', password);
   
     try {
       const user = await User.findOne({ email }); // Find user by email
       if (!user) {
-        console.log('Login failed: user not found');
         return res.status(400).json({ msg: 'Invalid Credentials' });
       }
-  
+
       const isMatch = await user.matchPassword(password); // Use the matchPassword method
-      console.log('Password match result:', isMatch);
       if (!isMatch) {
-        console.log('Login failed: password mismatch');
         return res.status(400).json({ msg: 'Invalid Credentials' });
       }
-  
+
+      // Enforce active subscription for non-admin users
+      if (!user.isAdmin) {
+        const now = new Date();
+        const activePayment = await Payment.findOne({
+          email: user.email.toLowerCase(),
+          status: 'paid',
+          expiresAt: { $gt: now }
+        }).sort({ createdAt: -1 });
+
+        if (!activePayment) {
+          return res.status(402).json({ msg: 'Subscription inactive or expired. Please purchase or renew to log in.' });
+        }
+
+        // Optional: sync user.subscription
+        if (!user.subscription || !user.subscription.expiresAt || user.subscription.expiresAt < activePayment.expiresAt) {
+          try {
+            user.subscription = {
+              plan: activePayment.plan,
+              isPaid: true,
+              expiresAt: activePayment.expiresAt,
+              razorpayPaymentId: activePayment.razorpay_payment_id
+            };
+            await user.save();
+          } catch (e) {
+            console.error('Failed to sync subscription on login:', e);
+          }
+        }
+      }
+
       const payload = { user: { id: user.id, role: user.role } };
-  
+
       const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '1h' });
-  
+
       // Send both token and user data
       res.json({
         token,
