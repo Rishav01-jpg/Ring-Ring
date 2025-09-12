@@ -76,7 +76,7 @@ const handleGetStarted = async () => {
           Ring Ring Crm
         </h1>
         <p style={{ fontSize: "1.5rem", marginTop: "10px" }}>
-          Upload Your Leads, Start Calling, and Grow Faster.
+          Upload Your contacts, Start Calling, and Grow Faster.
         </p>
         <p style={{
           fontSize: "1.1rem",
@@ -157,7 +157,7 @@ const handleGetStarted = async () => {
           lineHeight: "2",
           paddingLeft: "20px"
         }}>
-          <li>📂 Upload your leads via CSV file.</li>
+          <li>📂 Upload your contacts via CSV file.</li>
           <li>▶️ Click “Start Automatic Call”.</li>
           <li>📞 Calls start using your phone’s SIM automatically.</li>
           <li>📝 Write call status, notes & outcomes after each call.</li>
@@ -187,13 +187,12 @@ const handleGetStarted = async () => {
           lineHeight: "2",
           paddingLeft: "20px"
         }}>
-          <li>🧠 Smart Lead Management – add, filter & call with ease.</li>
+          <li>🧠 Smart contact Management – add, filter & call with ease.</li>
           <li>📞 SIM-Based Automatic Calling – no need for VoIP.</li>
           <li>🗓️ Call Scheduling – never miss a follow-up.</li>
-          <li>⚡ Instant Leads – convert business inquiries fast.</li>
           <li>🌐 Get Your Website – launch your bussiness online.</li>
           <li>📝 Call Notes – track outcomes for each lead.</li>
-          <li>📥 CSV Import/Export – bulk manage thousands of leads.</li>
+          <li>📥 CSV Import/Export – bulk manage thousands of contacts.</li>
           <li>📊 Dashboard Analytics – monitor progress & success rates.</li>
         </ul>
       </section>
@@ -207,7 +206,7 @@ const handleGetStarted = async () => {
     </div>
 
     <div style={{ background: "#ffffff", borderRadius: "15px", padding: "20px", border: "1px solid #e0e0e0", boxShadow: "0 2px 6px rgba(0,0,0,0.05)", color: "#000" }}>
-      <p style={{ fontStyle: "italic" }}>"Importing leads via CSV and scheduling follow-ups has never been easier. I love the simplicity!"</p>
+      <p style={{ fontStyle: "italic" }}>"Importing contacts via CSV and scheduling follow-ups has never been easier. I love the simplicity!"</p>
       <strong style={{ display: "block", marginTop: "10px" }}>– Priya Sharma, Business Owner</strong>
     </div>
 
